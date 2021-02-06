@@ -22,7 +22,7 @@ int main(int argc, char **argv)
   }
 
   do {
-    if(argc >= 2){
+    if(argc > 1){
     // open the files in a while loopp to get them all
       fp = fopen(argv[file_counter], "r");
 
@@ -31,6 +31,9 @@ int main(int argc, char **argv)
         printf("wgrep: cannot open file\n");
         exit(1);
       }
+    }
+    else {
+      fp = stdin;
     }
 
     // get the first line
@@ -44,5 +47,5 @@ int main(int argc, char **argv)
     fclose(fp);
     file_counter ++;
   } while (file_counter < argc);
-  return (0);
+  exit(0);
 }
