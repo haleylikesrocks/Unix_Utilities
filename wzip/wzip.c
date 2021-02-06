@@ -8,8 +8,8 @@ int main(int argc, char **argv)
   FILE *fp;
   int file_counter = 1;
   char letter;
-  int letter_count = 0;
-  int total_count = 1;
+  int letter_count = 1;
+  int total_count = 0;
   char *line_buffer = NULL;
   size_t line_buffer_size =0;
   ssize_t line_size = 0;
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
         printf("%d", letter_count);
         printf("%c", letter);
         letter = line_buffer[total_count];
-        letter_count = 0;
+        letter_count = 1;
       }
     }
 
