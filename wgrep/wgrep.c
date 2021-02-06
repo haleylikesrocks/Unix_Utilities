@@ -8,7 +8,10 @@ Part 1b wgrep: creating a process similar to grep in UNIX */
 
 int main(int argc, char **argv)
 {
-  char buffer[500];
+  char *line_buffer = NULL;
+  size_t line_buffer_size =0;
+  int line_count = 0;
+  ssize_t line_size = 0;
   FILE *fp;
   int file_counter = 2;
   char *target = argv[1];
@@ -19,33 +22,24 @@ int main(int argc, char **argv)
   }
 
   do {
-    if(argc > 2){
-            // open the files in a while loopp to get them all
+    if(argc >= 2){
+    // open the files in a while loopp to get them all
       fp = fopen(argv[file_counter], "r");
 
-
+      // error handeling if you cannot open the file
       if (fp == NULL) {
         printf("wgrep: cannot open file\n");
         exit(1);
       }
     }
-    if (argc == 1) {
-      // open the files in a while loopp to get them all
-      while (fgets (buffer, 500, stdin)) {
-      
-        if (strstr(buffer, target)){
-          printf("%s", buffer);
-        }
-      
-      }
-    }
 
-    while (!feof(fp)) {
-      if( fgets (buffer, 500, fp)!=NULL ) {
-        if (strstr(buffer, target)){
-          printf("%s", buffer);
-        }
+    // get the first line
+    while (line_size >= 0) {
+      line_size = getline(&line_buffer, &line_buffer_size, fp);
+      if (strstr(line_buffer, target)){
+        printf("%s", line_buffer);
       }
+      line_count++;
     }
     fclose(fp);
     file_counter ++;
