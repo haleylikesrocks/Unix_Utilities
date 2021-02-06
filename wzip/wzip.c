@@ -39,8 +39,8 @@ int main(int argc, char **argv)
         letter_count = 1;
       }
     }
-
-    // need to close file here
+    total_count = 0;
+    fclose(fp);
     file_counter++;
   } while (file_counter < argc);
   exit(0);
