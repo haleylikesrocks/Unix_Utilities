@@ -7,26 +7,38 @@ int main(int argc, char **argv)
 {
   FILE *fp;
   int file_counter = 1;
-  // char letter;
-  // int letter_count = 0;
-  // int total_count = 1;
+  char letter;
+  int letter_count = 0;
+  int total_count = 1;
   char *line_buffer = NULL;
   size_t line_buffer_size =0;
   ssize_t line_size = 0;
-  // char buffer[500];
   
   do {
     fp = fopen(argv[file_counter], "r");
+    // error handeling if can't open the file
     if(fp == NULL){
       printf("wzip: file1 [file2..]\n");
       exit(1);
     }
 
-
-    // fgets(buffer, 500, fp);
-
+    // get line from file
     line_size = getline(&line_buffer, &line_buffer_size, fp);
-    printf("%s", line_buffer);
+
+    // loop through text and compress
+    letter = line_buffer[total_count];
+    while(total_count < line_size){
+      total_count++;
+      if(letter == line_buffer[total_count]){
+        letter_count++;
+      }
+      else {
+        printf("%d", letter_count);
+        printf("%c", letter);
+        letter = line_buffer[total_count];
+        letter_count = 0;
+      }
+    }
 
     // need to close file here
     file_counter++;
