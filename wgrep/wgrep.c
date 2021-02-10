@@ -10,7 +10,6 @@ int main(int argc, char **argv)
 {
   char *line_buffer = NULL;
   size_t line_buffer_size =0;
-  int line_count = 0;
   ssize_t line_size = 0;
   FILE *fp;
   int file_counter = 2;
@@ -20,10 +19,24 @@ int main(int argc, char **argv)
     printf("wgrep: searchterm [file ...]\n");
     exit(1);
   }
+  // printf("%d", argc);
 
-  do {
-    if(argc > 1){
+  if(argc == 2){
+    fp = stdin;
+
+     while (line_size >= 0) {
+      line_size = getline(&line_buffer, &line_buffer_size, fp);
+      if (strstr(line_buffer, target)){
+        printf("%s", line_buffer);
+      }
+    }
+    fclose(fp);
+  }
+
+  while (file_counter < argc) {
+    if(argc > 2){
     // open the files in a while loopp to get them all
+      // printf("%d", argc);
       fp = fopen(argv[file_counter], "r");
 
       // error handeling if you cannot open the file
@@ -32,9 +45,7 @@ int main(int argc, char **argv)
         exit(1);
       }
     }
-    else {
-      fp = stdin;
-    }
+
 
     // get the first line
     while (line_size >= 0) {
@@ -42,10 +53,9 @@ int main(int argc, char **argv)
       if (strstr(line_buffer, target)){
         printf("%s", line_buffer);
       }
-      line_count++;
     }
     fclose(fp);
     file_counter ++;
-  } while (file_counter < argc);
+  }
   exit(0);
 }
