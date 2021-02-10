@@ -32,8 +32,10 @@ int main(int argc, char **argv)
       letter_count++;
       next_letter = getc(fp);
       if(next_letter != letter && next_letter != EOF){
-        printf("%d", letter_count);
-        printf("%c", letter);
+        // printf("%d", letter_count);
+        // printf("%c", letter);
+        fwrite(&letter_count, 4, 1, stdout);
+        fwrite(&letter, 1, 1, stdout);
         letter_count = 0;
         letter = next_letter;
       }
@@ -43,7 +45,9 @@ int main(int argc, char **argv)
     fclose(fp);
     file_counter++;
   }
-  printf("%d", letter_count);
-  printf("%c", letter);
+  fwrite(&letter_count, 4, 1, stdout);
+  fwrite(&letter, 1, 1, stdout);
+  // printf("%d", letter_count);
+  // printf("%c", letter);
   exit(0);
 }
