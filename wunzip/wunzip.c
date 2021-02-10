@@ -16,12 +16,11 @@ int main(int argc, char **argv)
     fp = fopen(argv[file_counter], "r");
     // error handeling if can't open the file
     if(fp == NULL){
-      printf("wunzip: file1 [file2..]\n");
+      printf("wunzip: file1 [file2 ...]\n");
       exit(1);
     }
 
-    while(!feof(fp)){
-      fread(&letter_count, 4, 1, fp);
+    while(fread(&letter_count, 1, 4, fp) == 4){
       fread(&letter, 1, 1, fp);
       for(int i = 0; i < letter_count; i++){
         printf("%c", letter);
